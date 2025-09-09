@@ -40,7 +40,7 @@ export default function ManagePackagesPage() {
 
   const fetchPackages = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/packages")
+      const res = await axios.get("https://richworld-server.onrender.com/api/packages")
       setPackages(res.data)
     } catch (err) {
       console.error("Error fetching packages:", err)
@@ -52,7 +52,7 @@ export default function ManagePackagesPage() {
   // 🔹 Update package status
   const updatePackageStatus = async (packageId, newStatus) => {
     try {
-      const res = await axios.put(`http://localhost:4000/api/packages/${packageId}`, { status: newStatus })
+      const res = await axios.put(`https://richworld-server.onrender.com/api/packages/${packageId}`, { status: newStatus })
       setPackages(packages.map((pkg) => (pkg._id === packageId ? res.data : pkg)))
     } catch (err) {
       console.error("Error updating status:", err)
@@ -62,7 +62,7 @@ export default function ManagePackagesPage() {
   // 🔹 Delete package
   const deletePackage = async (packageId) => {
     try {
-      await axios.delete(`http://localhost:4000/api/packages/${packageId}`)
+      await axios.delete(`https://richworld-server.onrender.com/api/packages/${packageId}`)
       setPackages(packages.filter((pkg) => pkg._id !== packageId))
     } catch (err) {
       console.error("Error deleting package:", err)
@@ -78,7 +78,7 @@ export default function ManagePackagesPage() {
   // 🔹 Save edited package
   const saveEditedPackage = async () => {
     try {
-      const res = await axios.put(`http://localhost:4000/api/packages/${editingPackage._id}`, editingPackage)
+      const res = await axios.put(`https://richworld-server.onrender.com/api/packages/${editingPackage._id}`, editingPackage)
       setPackages(packages.map((pkg) => (pkg._id === editingPackage._id ? res.data : pkg)))
       setIsEditDialogOpen(false)
       setEditingPackage(null)

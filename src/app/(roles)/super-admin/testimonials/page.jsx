@@ -30,7 +30,7 @@ export default function TestimonialsPage() {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/testimonials")
+        const res = await axios.get("https://richworld-server.onrender.com/api/testimonials")
         setTestimonials(res.data)
       } catch (error) {
         console.error("❌ Error fetching testimonials:", error)
@@ -44,7 +44,7 @@ export default function TestimonialsPage() {
   // ✅ Update testimonial status (publish/inactive)
   const updateTestimonialStatus = async (testimonialId, newStatus) => {
     try {
-      await axios.patch(`http://localhost:4000/api/testimonials/${testimonialId}`, { status: newStatus })
+      await axios.patch(`https://richworld-server.onrender.com/api/testimonials/${testimonialId}`, { status: newStatus })
       setTestimonials((prev) =>
         prev.map((t) => (t._id === testimonialId ? { ...t, status: newStatus } : t)),
       )
@@ -57,7 +57,7 @@ export default function TestimonialsPage() {
   const deleteTestimonial = async (testimonialId) => {
     if (!confirm("Are you sure you want to delete this testimonial?")) return
     try {
-      await axios.delete(`http://localhost:4000/api/testimonials/${testimonialId}`)
+      await axios.delete(`https://richworld-server.onrender.com/api/testimonials/${testimonialId}`)
       setTestimonials((prev) => prev.filter((t) => t._id !== testimonialId))
     } catch (error) {
       console.error("❌ Error deleting testimonial:", error)

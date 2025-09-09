@@ -29,7 +29,7 @@ export default function BookingsPage() {
 useEffect(() => {
   const fetchBookings = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/bookings")
+      const res = await axios.get("https://richworld-server.onrender.com/api/bookings")
       setBookings(res.data)
     } catch (error) {
       console.error("Error fetching bookings:", error)
@@ -42,7 +42,7 @@ useEffect(() => {
 const updateBookingStatus = async (bookingId, newStatus) => {
   try {
     const res = await axios.put(
-      `http://localhost:4000/api/bookings/${bookingId}/status`,
+      `https://richworld-server.onrender.com/api/bookings/${bookingId}/status`,
       { status: newStatus }
     )
     setBookings(bookings.map(b => (b._id === bookingId ? res.data : b)))

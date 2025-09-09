@@ -125,7 +125,7 @@ const [packageData, setPackageData] = useState({
 
       packageImages.forEach((img) => formData.append("images", img.file))
 
-      const res = await fetch("http://localhost:4000/api/packages", {
+      const res = await fetch("https://richworld-server.onrender.com/api/packages", {
         method: "POST",
         body: formData,
       })
