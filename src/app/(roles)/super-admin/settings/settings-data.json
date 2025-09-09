@@ -1,0 +1,149 @@
+{
+  "authentication": {
+    "mfaEnabled": true,
+    "passwordRules": {
+      "minLength": 8,
+      "requireUppercase": true,
+      "requireLowercase": true,
+      "requireNumbers": true,
+      "requireSpecialChars": true,
+      "passwordExpiry": 90
+    },
+    "rateLimits": {
+      "loginAttempts": 5,
+      "lockoutDuration": 30,
+      "resetAttempts": 3
+    },
+    "loginProviders": {
+      "google": {
+        "enabled": true,
+        "clientId": "google-client-id-123",
+        "clientSecret": "google-client-secret-456"
+      },
+      "microsoft": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": ""
+      },
+      "okta": {
+        "enabled": true,
+        "domain": "company.okta.com",
+        "clientId": "okta-client-id-789"
+      }
+    }
+  },
+  "email": {
+    "provider": "smtp",
+    "smtpSettings": {
+      "host": "smtp.company.com",
+      "port": 587,
+      "username": "noreply@company.com",
+      "password": "smtp-password-123",
+      "encryption": "tls"
+    },
+    "sesSettings": {
+      "region": "us-east-1",
+      "accessKey": "",
+      "secretKey": ""
+    },
+    "templates": {
+      "consentGranted": {
+        "subject": "Consent Granted - {{companyName}}",
+        "body": "Your consent has been successfully recorded for {{companyName}}."
+      },
+      "breachAlert": {
+        "subject": "Security Breach Alert - {{companyName}}",
+        "body": "We are writing to inform you of a potential security incident involving your personal data."
+      },
+      "passwordReset": {
+        "subject": "Password Reset Request",
+        "body": "Click the link below to reset your password: {{resetLink}}"
+      }
+    },
+    "notifications": {
+      "frequency": "immediate",
+      "digestEnabled": false,
+      "digestTime": "09:00"
+    }
+  },
+  "companyDefaults": {
+    "dataRetention": {
+      "defaultPeriod": 365,
+      "autoDelete": true,
+      "notificationDays": 30
+    },
+    "defaultRoles": [
+      {
+        "name": "Admin",
+        "permissions": ["read", "write", "delete", "manage_users"]
+      },
+      {
+        "name": "Manager",
+        "permissions": ["read", "write", "manage_team"]
+      },
+      {
+        "name": "User",
+        "permissions": ["read"]
+      }
+    ],
+    "features": {
+      "dpiaEnabled": true,
+      "breachAlerting": true,
+      "consentManagement": true,
+      "dataMapping": true,
+      "riskAssessment": false
+    }
+  },
+  "compliance": {
+    "globalPolicies": {
+      "gdprEnabled": true,
+      "ccpaEnabled": true,
+      "hipaaEnabled": false
+    },
+    "templates": {
+      "consentForm": {
+        "name": "Standard Consent Form",
+        "version": "1.2",
+        "lastUpdated": "2024-03-15"
+      },
+      "dpia": {
+        "name": "Data Protection Impact Assessment",
+        "version": "2.1",
+        "lastUpdated": "2024-02-20"
+      },
+      "retentionPolicy": {
+        "name": "Data Retention Policy",
+        "version": "1.0",
+        "lastUpdated": "2024-01-10"
+      }
+    }
+  },
+  "auditLog": {
+    "enabled": true,
+    "retentionDuration": 2555,
+    "logLevel": "detailed",
+    "includeUserActions": true,
+    "includeSystemEvents": true,
+    "includeApiCalls": true
+  },
+  "platform": {
+    "branding": {
+      "companyName": "Acme Inc.",
+      "logo": "/placeholder.svg?height=40&width=120",
+      "primaryColor": "#3b82f6",
+      "secondaryColor": "#64748b",
+      "customDomain": "app.acme.com"
+    },
+    "apiKeys": {
+      "stripe": "sk_test_123456789",
+      "sendgrid": "SG.123456789",
+      "slack": "xoxb-123456789"
+    },
+    "monitoring": {
+      "healthChecks": true,
+      "uptimeMonitoring": true,
+      "errorTracking": true,
+      "performanceMonitoring": false
+    }
+  }
+}
