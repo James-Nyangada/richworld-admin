@@ -33,6 +33,7 @@ export default function ManagePackagesPage() {
   const [editingPackage, setEditingPackage] = useState(null)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
 
+  const API = process.env.NEXT_PUBLIC_API_URL;
   // 🔹 Fetch packages from backend
   useEffect(() => {
     fetchPackages()
@@ -40,7 +41,7 @@ export default function ManagePackagesPage() {
 
   const fetchPackages = async () => {
     try {
-      const res = await axios.get("https://richworld-server.onrender.com/api/packages")
+      const res = await axios.get(`${API}/api/packages`)
       setPackages(res.data)
     } catch (err) {
       console.error("Error fetching packages:", err)
@@ -52,7 +53,7 @@ export default function ManagePackagesPage() {
   // 🔹 Update package status
   const updatePackageStatus = async (packageId, newStatus) => {
     try {
-      const res = await axios.put(`https://richworld-server.onrender.com/api/packages/${packageId}`, { status: newStatus })
+      const res = await axios.put(`${API}/api/packages/${packageId}`, { status: newStatus })
       setPackages(packages.map((pkg) => (pkg._id === packageId ? res.data : pkg)))
     } catch (err) {
       console.error("Error updating status:", err)
@@ -62,7 +63,7 @@ export default function ManagePackagesPage() {
   // 🔹 Delete package
   const deletePackage = async (packageId) => {
     try {
-      await axios.delete(`https://richworld-server.onrender.com/api/packages/${packageId}`)
+      await axios.delete(`${API}/api/packages/${packageId}`)
       setPackages(packages.filter((pkg) => pkg._id !== packageId))
     } catch (err) {
       console.error("Error deleting package:", err)
@@ -78,7 +79,7 @@ export default function ManagePackagesPage() {
   // 🔹 Save edited package
   const saveEditedPackage = async () => {
     try {
-      const res = await axios.put(`https://richworld-server.onrender.com/api/packages/${editingPackage._id}`, editingPackage)
+      const res = await axios.put(`${API}/api/packages/${editingPackage._id}`, editingPackage)
       setPackages(packages.map((pkg) => (pkg._id === editingPackage._id ? res.data : pkg)))
       setIsEditDialogOpen(false)
       setEditingPackage(null)
@@ -134,7 +135,7 @@ export default function ManagePackagesPage() {
           </div>
           <Button
             className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
-            onClick={() => (window.location.href = "/packages/add")}
+            onClick={() => (window.location.href = "/super-admin/packages/add")}
           >
             <Plus className="h-4 w-4 mr-2" />
             Add New Package

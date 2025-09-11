@@ -25,12 +25,12 @@ export default function Home() {
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="max-w-xl">
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-              Welcome to WOW Radio CMS
+              Welcome to RichWorld Admin Panel,
               <br />
               the Ultimate Dashboard.
             </h1>
             <p className="text-gray-600 mb-8">
-              Experience the power of our software with a seamless and intuitive interface. Our dashboard is designed to provide you with all the tools you need to manage your Radio PLatform effectively and efficiently.
+              Manage your travel packages, testimonials, and user roles with ease.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -46,9 +46,9 @@ export default function Home() {
                 href="/login"
                 
               >
-              <Button variant="default" className="bg-primary text-primary-foreground cursor-pointer hover:bg-primary/90">
+              {/* <Button variant="default" className="bg-primary text-primary-foreground cursor-pointer hover:bg-primary/90">
                 Sign Up
-              </Button>
+              </Button> */}
                 
               </Link>
               
@@ -56,7 +56,7 @@ export default function Home() {
           </div>
           <div className="relative">
             <Image
-              src="/images/image.jpg"
+              src="/hero-safari.jpg"
               alt="Isomorphic Dashboard on laptop and mobile"
               width={600}
               height={500}

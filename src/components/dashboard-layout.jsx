@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
+import Cookies from "js-cookie"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -32,10 +33,21 @@ export function DashboardLayout({ children }) {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
+    const handleNavigation = (href) => {
+      router.push(href)
+    }
+  
+    
+      const handleLogout = () => {
+       Cookies.remove("token", { path: "/" });
+        Cookies.remove("role", { path: "/" });
+        router.push("/login");
+      }
 
-  const handleNavigation = (href) => {
-    router.push(href)
-  }
+    const userInfo = Cookies.get("user");
+    const userDetail = userInfo ? JSON.parse(userInfo) : null;
+    const name = userDetail ? `${userDetail.firstName} ${userDetail.lastName}` : "Guest";
+    const email = userDetail?.email ?? "";
 
   return (
     <div className="flex h-screen bg-background">
@@ -95,8 +107,8 @@ export function DashboardLayout({ children }) {
             </Avatar>
             {!isCollapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-sidebar-foreground truncate">Admin User</p>
-                <p className="text-xs text-muted-foreground truncate">admin@traveltours.com</p>
+                <p className="text-sm font-medium text-sidebar-foreground truncate">{name}</p>
+                <p className="text-xs text-muted-foreground truncate">{email}</p>
               </div>
             )}
             <DropdownMenu>
@@ -108,7 +120,7 @@ export function DashboardLayout({ children }) {
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem className="text-destructive focus:text-destructive">
                   <LogOut className="mr-2 h-4 w-4" />
-                  Logout
+                  <Button onClick={handleLogout}>Logout</Button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

@@ -19,23 +19,31 @@ const [packageData, setPackageData] = useState({
     price: "",
     inclusions: [],
     exclusions: [],
-    itinerary: "",
     specialNotes: "",
   })
 
   const [hotels, setHotels] = useState([{ name: "", price: "" }])
+  const [itinerary, setItinerary] = useState([{ day: "", plan: "" }])
   const [newInclusion, setNewInclusion] = useState("")
   const [newExclusion, setNewExclusion] = useState("")
   const [packageImages, setPackageImages] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
+  const API = process.env.NEXT_PUBLIC_API_URL;
 
   // ====== HOTELS ======
   const addHotel = () => setHotels([...hotels, { name: "", price: "" }])
   const removeHotel = (index) => setHotels(hotels.filter((_, i) => i !== index))
   const updateHotel = (index, field, value) => {
     setHotels(hotels.map((h, i) => (i === index ? { ...h, [field]: value } : h)))
+  }
+
+  // ====== Itinerary ======
+  const addItineraryItem = () => setItinerary([...itinerary, { day: "", plan: "" }])
+  const removeItineraryItem = (index) => setItinerary(itinerary.filter((_, i) => i !== index))
+  const updateItineraryItem = (index, field, value) => {
+    setItinerary(itinerary.map((item, i) => (i === index ? { ...item, [field]: value } : item)))
   }
 
   // ====== INCLUSIONS ======
@@ -117,7 +125,7 @@ const [packageData, setPackageData] = useState({
       formData.append("location", packageData.location.trim())
       formData.append("duration", packageData.duration)
       formData.append("price", String(packageData.price))
-      formData.append("itinerary", packageData.itinerary)
+      formData.append("itinerary", JSON.stringify(itinerary))
       formData.append("specialNotes", packageData.specialNotes)
       formData.append("inclusions", JSON.stringify(packageData.inclusions))
       formData.append("exclusions", JSON.stringify(packageData.exclusions))
@@ -125,7 +133,7 @@ const [packageData, setPackageData] = useState({
 
       packageImages.forEach((img) => formData.append("images", img.file))
 
-      const res = await fetch("https://richworld-server.onrender.com/api/packages", {
+      const res = await fetch(`${API}/api/packages`, {
         method: "POST",
         body: formData,
       })
@@ -148,6 +156,7 @@ const [packageData, setPackageData] = useState({
         specialNotes: "",
       })
       setHotels([{ name: "", price: "" }])
+      setItinerary([{ day: "", plan: "" }])
       setPackageImages([])
     } catch (err) {
       setError(err.message || "Something went wrong")
@@ -233,7 +242,7 @@ const [packageData, setPackageData] = useState({
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="price">Price (USD) *</Label>
+                  <Label htmlFor="price">Price (KES) *</Label>
                   <div className="relative">
                     <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -448,28 +457,61 @@ const [packageData, setPackageData] = useState({
             </CardContent>
           </Card>
 
-          {/* Detailed Itinerary */}
+          {/* Hotels and Lounges */}
           <Card>
             <CardHeader>
-              <CardTitle>Detailed Day-wise Itinerary</CardTitle>
-              <CardDescription>Provide a comprehensive day-by-day breakdown of the package</CardDescription>
+              <CardTitle className="flex items-center">
+                <Hotel className="h-5 w-5 mr-2" />
+                Day-wise Itinerary
+              </CardTitle>
+              <CardDescription>Add a detailed day-wise itinerary for this package</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <Label htmlFor="itinerary">Itinerary Details</Label>
-                <Textarea
-                  id="itinerary"
-                  placeholder="Enter detailed day-wise itinerary..."
-                  value={packageData.itinerary}
-                  onChange={(e) => setPackageData({ ...packageData, itinerary: e.target.value })}
-                  className="min-h-[300px] resize-y border-2 focus:border-primary"
-                />
-                <p className="text-sm text-muted-foreground">
-                  Provide detailed information for each day including activities, meals, and accommodations.
-                </p>
-              </div>
+            <CardContent className="space-y-4">
+              {itinerary.map((item, index) => (
+                <div key={index} className="flex gap-4 items-end p-4 border rounded-lg">
+                  <div className="flex-[0.3] space-y-2">
+                    <Label htmlFor={`itinerary-day-${index}`}>Day</Label>
+                    <Input
+                      id={`itinerary-day-${index}`}
+                      placeholder="Enter day"
+                      value={item.day}
+                      onChange={(e) => updateItineraryItem(index, "day", e.target.value)}
+                      className="border-2 focus:border-primary"
+                    />
+                  </div>
+                  <div className="flex-1 space-y-2">
+                    <Label htmlFor={`itinerary-plan-${index}`}>Plan</Label>
+                    <Input
+                      id={`itinerary-plan-${index}`}
+                      placeholder="Enter plan"
+                      value={item.plan}
+                      onChange={(e) => updateItineraryItem(index, "plan", e.target.value)}
+                      className="border-2 focus:border-primary"
+                    />
+                    
+                    
+                  </div>
+                  {itinerary.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => removeItineraryItem(index)}
+                      className="text-destructive hover:text-destructive"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+              ))}
+              <Button type="button" variant="outline" onClick={addItineraryItem} className="w-full bg-transparent">
+                <Plus className="h-4 w-4 mr-2" />
+                Add Another Day
+              </Button>
             </CardContent>
           </Card>
+
+         
 
           {/* Special Notes */}
           <Card>

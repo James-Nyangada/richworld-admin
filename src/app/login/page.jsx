@@ -301,7 +301,7 @@ function LoginForm({ onSwitchToSignup }) {
         >
           Log In
         </button>
-        <div className="text-center text-sm">
+        {/* <div className="text-center text-sm">
           Don't have an account?{" "}
           <button 
             onClick={onSwitchToSignup} 
@@ -309,7 +309,7 @@ function LoginForm({ onSwitchToSignup }) {
           >
             Sign up
           </button>
-        </div>
+        </div> */}
       </div>
     </form>
   );

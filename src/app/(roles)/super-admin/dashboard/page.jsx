@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -46,13 +47,58 @@ const packagePerformanceData = [
 
 export default function OverviewPage() {
   const [timeRange, setTimeRange] = useState("12months")
+  const [packages, setPackages] = useState([])
+  const [bookings, setBookings] = useState([])
+  const [testimonials, setTestimonials] = useState([])
+
+  const API = process.env.NEXT_PUBLIC_API_URL;
+    // 🔹 Fetch packages from backend
+    useEffect(() => {
+      fetchPackages()
+    }, [])
+  
+    const fetchPackages = async () => {
+      try {
+        const res = await axios.get(`${API}/api/packages`)
+        setPackages(res.data)
+      } catch (err) {
+        console.error("Error fetching packages:", err)
+      }
+    }
+
+    useEffect(() => {
+      const fetchBookings = async () => {
+        try {
+          const res = await axios.get(`${API}/api/bookings`)
+          setBookings(res.data)
+        } catch (error) {
+          console.error("Error fetching bookings:", error)
+        }
+      }
+      fetchBookings()
+    }, [])
+
+      // ✅ Fetch testimonials from backend
+      useEffect(() => {
+        const fetchTestimonials = async () => {
+          try {
+            const res = await axios.get(`${API}/api/testimonials`)
+            setTestimonials(res.data)
+          } catch (error) {
+            console.error("❌ Error fetching testimonials:", error)
+          } finally {
+            setLoading(false)
+          }
+        }
+        fetchTestimonials()
+      }, [])
 
   const quickActions = [
     {
       title: "View Bookings",
       description: "Manage customer bookings",
       icon: Calendar,
-      href: "/bookings",
+      href: "/super-admin/booking",
       color: "text-blue-600",
       bgColor: "bg-blue-50",
     },
@@ -60,7 +106,7 @@ export default function OverviewPage() {
       title: "Add Package",
       description: "Create new travel package",
       icon: Plus,
-      href: "/packages/add",
+      href: "/super-admin/packages/add",
       color: "text-green-600",
       bgColor: "bg-green-50",
     },
@@ -68,7 +114,7 @@ export default function OverviewPage() {
       title: "Manage Packages",
       description: "Edit existing packages",
       icon: Package,
-      href: "/packages",
+      href: "/super-admin/packages",
       color: "text-purple-600",
       bgColor: "bg-purple-50",
     },
@@ -76,7 +122,7 @@ export default function OverviewPage() {
       title: "View Testimonials",
       description: "Customer reviews",
       icon: MessageSquare,
-      href: "/testimonials",
+      href: "/super-admin/testimonials",
       color: "text-orange-600",
       bgColor: "bg-orange-50",
     },
@@ -98,11 +144,11 @@ export default function OverviewPage() {
               <div className="flex items-center justify-between h-full">
                 <div className="flex-1">
                   <p className="text-sm font-medium text-muted-foreground mb-1">Total Packages</p>
-                  <p className="text-3xl font-bold text-primary mb-2">24</p>
-                  <div className="flex items-center">
+                  <p className="text-3xl font-bold text-primary mb-2">{packages.length}</p>
+                  {/* <div className="flex items-center">
                     <ArrowUpRight className="h-4 w-4 text-green-600 mr-1" />
                     <span className="text-sm text-green-600 font-medium">+12% from last month</span>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="h-12 w-12 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Package className="h-6 w-6 text-primary" />
@@ -116,11 +162,11 @@ export default function OverviewPage() {
               <div className="flex items-center justify-between h-full">
                 <div className="flex-1">
                   <p className="text-sm font-medium text-muted-foreground mb-1">Total Bookings</p>
-                  <p className="text-3xl font-bold text-blue-600 mb-2">142</p>
-                  <div className="flex items-center">
+                  <p className="text-3xl font-bold text-blue-600 mb-2">{bookings.length}</p>
+                  {/* <div className="flex items-center">
                     <ArrowUpRight className="h-4 w-4 text-green-600 mr-1" />
                     <span className="text-sm text-green-600 font-medium">+8% from last month</span>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="h-12 w-12 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Calendar className="h-6 w-6 text-blue-600" />
@@ -134,11 +180,8 @@ export default function OverviewPage() {
               <div className="flex items-center justify-between h-full">
                 <div className="flex-1">
                   <p className="text-sm font-medium text-muted-foreground mb-1">Paid Bookings</p>
-                  <p className="text-3xl font-bold text-green-600 mb-2">128</p>
-                  <div className="flex items-center">
-                    <ArrowUpRight className="h-4 w-4 text-green-600 mr-1" />
-                    <span className="text-sm text-green-600 font-medium">+15% from last month</span>
-                  </div>
+                  <p className="text-3xl font-bold text-green-600 mb-2">{bookings.filter((b) => b.status === "paid").length}</p>
+                  
                 </div>
                 <div className="h-12 w-12 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
                   <DollarSign className="h-6 w-6 text-green-600" />
@@ -151,12 +194,12 @@ export default function OverviewPage() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between h-full">
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-muted-foreground mb-1">Revenue</p>
-                  <p className="text-3xl font-bold text-purple-600 mb-2">$284K</p>
-                  <div className="flex items-center">
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Testimonials</p>
+                  <p className="text-3xl font-bold text-purple-600 mb-2">{testimonials.length}</p>
+                  {/* <div className="flex items-center">
                     <ArrowDownRight className="h-4 w-4 text-red-600 mr-1" />
                     <span className="text-sm text-red-600 font-medium">-3% from last month</span>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="h-12 w-12 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
                   <TrendingUp className="h-6 w-6 text-purple-600" />
