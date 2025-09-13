@@ -245,11 +245,11 @@ export default function ManagePackagesPage() {
                 </TableHeader>
                 <TableBody>
                   {filteredPackages.map((pkg) => (
-                    <TableRow key={pkg.id} className="hover:bg-muted/50 transition-colors">
+                    <TableRow key={pkg._id} className="hover:bg-muted/50 transition-colors">
                       <TableCell>
                         <div>
                           <p className="font-medium">{pkg.name}</p>
-                          <p className="text-sm text-muted-foreground">{pkg.id}</p>
+                          <p className="text-sm text-muted-foreground">{pkg._id}</p>
                         </div>
                       </TableCell>
                       <TableCell>
@@ -285,7 +285,7 @@ export default function ManagePackagesPage() {
                       <TableCell>
                         <div className="flex flex-col gap-2">
                           <Badge variant={getStatusColor(pkg.status)}>{getStatusText(pkg.status)}</Badge>
-                          <Select value={pkg.status} onValueChange={(value) => updatePackageStatus(pkg.id, value)}>
+                          <Select value={pkg.status} onValueChange={(value) => updatePackageStatus(pkg._id, value)}>
                             <SelectTrigger className="w-24 h-6 text-xs">
                               <SelectValue />
                             </SelectTrigger>
@@ -323,7 +323,7 @@ export default function ManagePackagesPage() {
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                                 <AlertDialogAction
-                                  onClick={() => deletePackage(pkg.id)}
+                                  onClick={() => deletePackage(pkg._id)}
                                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                 >
                                   Delete Package
@@ -386,7 +386,7 @@ export default function ManagePackagesPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="edit-price">Price (USD)</Label>
+                    <Label htmlFor="edit-price">Price (KES)</Label>
                     <Input
                       id="edit-price"
                       type="number"

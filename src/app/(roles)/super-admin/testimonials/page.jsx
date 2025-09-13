@@ -42,17 +42,18 @@ export default function TestimonialsPage() {
     fetchTestimonials()
   }, [])
 
-  // ✅ Update testimonial status (publish/inactive)
-  const updateTestimonialStatus = async (testimonialId, newStatus) => {
-    try {
-      await axios.patch(`${API}/api/testimonials/${testimonialId}`, { status: newStatus })
-      setTestimonials((prev) =>
-        prev.map((t) => (t._id === testimonialId ? { ...t, status: newStatus } : t)),
-      )
-    } catch (error) {
-      console.error("❌ Error updating status:", error)
-    }
+// ✅ Update testimonial status
+const updateTestimonialStatus = async (testimonialId, newStatus) => {
+  try {
+    await axios.patch(`${API}/api/testimonials/${testimonialId}/status`, { status: newStatus })
+    setTestimonials((prev) =>
+      prev.map((t) => (t._id === testimonialId ? { ...t, status: newStatus } : t)),
+    )
+  } catch (error) {
+    console.error("❌ Error updating status:", error)
   }
+}
+
 
   // ✅ Delete testimonial
   const deleteTestimonial = async (testimonialId) => {
@@ -91,8 +92,15 @@ export default function TestimonialsPage() {
         return "default"
       case "inactive":
         return "secondary"
+      case "pending":
+        return "warning"
+      case "approved":
+        return "success"
+      case "rejected":
+        return "destructive"
       default:
         return "outline"
+      
     }
   }
 
@@ -254,7 +262,10 @@ export default function TestimonialsPage() {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="published">Published</SelectItem>
-                          <SelectItem value="inactive">Inactive</SelectItem>
+                          <SelectItem value="pending">Pending</SelectItem>
+                          <SelectItem value="approved">Approved</SelectItem>
+                          <SelectItem value="rejected">Rejected</SelectItem>
+
                         </SelectContent>
                       </Select>
 
