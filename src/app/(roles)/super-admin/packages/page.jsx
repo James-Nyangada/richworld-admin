@@ -385,6 +385,24 @@ export default function ManagePackagesPage() {
                       onChange={(e) => setEditingPackage({ ...editingPackage, duration: e.target.value })}
                     />
                   </div>
+                                    <div className="space-y-2">
+                    <Label htmlFor="edit-category">Category</Label>
+                    <Select 
+                      value={editingPackage.category} 
+                      onValueChange={(value) => setEditingPackage({ ...editingPackage, category: value })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="safari">Safari</SelectItem>
+                        <SelectItem value="adventure">Adventure</SelectItem>
+                        <SelectItem value="beach">Beach</SelectItem>
+                        <SelectItem value="holiday">Holiday</SelectItem>
+                        <SelectItem value="luxury">Luxury</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="edit-price">Price (KES)</Label>
                     <Input

@@ -15,7 +15,7 @@ export default function Home() {
             <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
               <GalleryVerticalEnd className="size-4" />
             </div>
-            Wow Radio
+            Richworld Admin
           </a>
         </div>
         
@@ -67,7 +67,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="container mx-auto px-4 py-8 flex justify-center">
+      {/* <footer className="container mx-auto px-4 py-8 flex justify-center">
         <div className="flex gap-4">
           <Link href="#" className="p-3 rounded-full border border-gray-200 hover:bg-gray-50 transition-colors">
             <Facebook className="h-5 w-5 text-gray-500" />
@@ -86,7 +86,7 @@ export default function Home() {
             <span className="sr-only">YouTube</span>
           </Link>
         </div>
-      </footer>
+      </footer> */}
     </div>
   )
 }

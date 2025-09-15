@@ -16,6 +16,7 @@ const [packageData, setPackageData] = useState({
     name: "",
     location: "",
     duration: "",
+    category: "",
     price: "",
     inclusions: [],
     exclusions: [],
@@ -124,6 +125,7 @@ const [packageData, setPackageData] = useState({
       formData.append("name", packageData.name.trim())
       formData.append("location", packageData.location.trim())
       formData.append("duration", packageData.duration)
+      formData.append("category", packageData.category)
       formData.append("price", String(packageData.price))
       formData.append("itinerary", JSON.stringify(itinerary))
       formData.append("specialNotes", packageData.specialNotes)
@@ -149,6 +151,7 @@ const [packageData, setPackageData] = useState({
         name: "",
         location: "",
         duration: "",
+        category: "",
         price: "",
         inclusions: [],
         exclusions: [],
@@ -238,6 +241,25 @@ const [packageData, setPackageData] = useState({
                       <SelectItem value="10-days">10 Days</SelectItem>
                       <SelectItem value="14-days">14 Days</SelectItem>
                       <SelectItem value="custom">Custom</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="category">Category</Label>
+                  <Select
+                    value={packageData.category}
+                    onValueChange={(value) => setPackageData({ ...packageData, category: value })}
+                  >
+                    <SelectTrigger className="border-2 focus:border-primary">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="safari">Safari</SelectItem>
+                      <SelectItem value="adventure">Adventure</SelectItem>
+                      <SelectItem value="beach">Beach</SelectItem>
+                      <SelectItem value="holiday">Holiday</SelectItem>
+                      <SelectItem value="luxury">Luxury</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -358,10 +380,15 @@ const [packageData, setPackageData] = useState({
                 {packageData.inclusions.map((inclusion, index) => (
                   <Badge key={index} variant="secondary" className="flex items-center gap-1">
                     {inclusion}
-                    <X
-                      className="h-3 w-3 cursor-pointer hover:text-destructive"
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-auto p-0 hover:bg-transparent"
                       onClick={() => removeInclusion(index)}
-                    />
+                    >
+                      <X className="h-3 w-3 cursor-pointer hover:text-destructive" />
+                    </Button>
                   </Badge>
                 ))}
               </div>
@@ -391,10 +418,15 @@ const [packageData, setPackageData] = useState({
                 {packageData.exclusions.map((exclusion, index) => (
                   <Badge key={index} variant="outline" className="flex items-center gap-1">
                     {exclusion}
-                    <X
-                      className="h-3 w-3 cursor-pointer hover:text-destructive"
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-auto p-0 hover:bg-transparent"
                       onClick={() => removeExclusion(index)}
-                    />
+                    >
+                      <X className="h-3 w-3 cursor-pointer hover:text-destructive" />
+                    </Button>
                   </Badge>
                 ))}
               </div>
