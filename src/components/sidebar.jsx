@@ -95,7 +95,7 @@ export function Sidebar() {
             </div>
             {!isCollapsed && (
               <span className="font-bold text-lg text-sidebar-foreground animate-in slide-in-from-left-2 duration-200">
-                Wow Radio
+               Richworld Safaris
               </span>
             )}
           </div>

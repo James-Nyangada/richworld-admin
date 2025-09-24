@@ -83,7 +83,7 @@ export function NavUser({
                   {email}
                 </span>
                 <span className="text-muted-foreground truncate text-xs">
-                  WOW Radio
+                  Richworld Safaris
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
